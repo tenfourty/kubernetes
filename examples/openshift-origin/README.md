@@ -147,13 +147,13 @@ $ sudo -E chown -R ${USER} ${OPENSHIFT_CONFIG}
 Then run the following command to collapse them into a Kubernetes secret.
 
 ```sh
-$ docker run -it --privileged -e="KUBECONFIG=/config/admin.kubeconfig" -v ${OPENSHIFT_CONFIG}:/config openshift/origin cli secrets new openshift-config /config -o json &> examples/openshift-origin/secret.json
+$ docker run -it --privileged -e="KUBECONFIG=/config/admin.kubeconfig" -v ${OPENSHIFT_CONFIG}:/config openshift/origin cli secrets new openshift-config /config -o json &> $OPENSHIFT_EXAMPLE/secret.json
 ```
 
 Now, lets create the secret in your Kubernetes cluster.
 
 ```sh
-$ cluster/kubectl.sh create -f examples/openshift-origin/secret.json --namespace="openshift-origin"
+$ cluster/kubectl.sh create -f $OPENSHIFT_EXAMPLE/secret.json --namespace="openshift-origin"
 ```
 
 **NOTE: This secret is secret and should not be shared with untrusted parties.**
@@ -172,8 +172,8 @@ $  cluster/kubectl.sh create -f ${OPENSHIFT_EXAMPLE}/openshift-controller.yaml -
 You should now get a pod provisioned whose name begins with openshift.
 
 ```sh
-$ cluster/kubectl.sh get pods | grep openshift
-$ cluster/kubectl.sh log openshift-t7147 origin
+$ cluster/kubectl.sh get pods --namespace=openshift-origin | grep openshift
+$ cluster/kubectl.sh logs openshift-t7147 origin --namespace=openshift-origin
 Running: cluster/../cluster/gce/../../cluster/../_output/dockerized/bin/linux/amd64/kubectl logs openshift-t7t47 origin
 2015-04-30T15:26:00.454146869Z I0430 15:26:00.454005       1 start_master.go:296] Starting an OpenShift master, reachable at 0.0.0.0:8443 (etcd: [https://10.0.27.2:4001])
 2015-04-30T15:26:00.454231211Z I0430 15:26:00.454223       1 start_master.go:297] OpenShift master public address is https://104.197.73.241:8443
