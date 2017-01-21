@@ -48,11 +48,11 @@ $ sed -i.bak -e "s/INSERT_ETCD_INITIAL_CLUSTER_TOKEN/\"${ETCD_INITIAL_CLUSTER_TO
 This will have created a `etcd-controller.yaml.bak` file in your directory, which you should remember to restore when doing cleanup (or use the given `cleanup.sh`). Finally, let's start up the external etcd pods and the discovery service necessary for their initialization:
 
 ```sh
-$ kubectl create -f examples/openshift-origin/openshift-origin-namespace.yaml
-$ kubectl create -f examples/openshift-origin/etcd-discovery-controller.yaml --namespace="openshift-origin"
-$ kubectl create -f examples/openshift-origin/etcd-discovery-service.yaml --namespace="openshift-origin"
-$ kubectl create -f examples/openshift-origin/etcd-controller.yaml --namespace="openshift-origin"
-$ kubectl create -f examples/openshift-origin/etcd-service.yaml --namespace="openshift-origin"
+$ kubectl create -f $OPENSHIFT_EXAMPLE/openshift-origin-namespace.yaml
+$ kubectl create -f $OPENSHIFT_EXAMPLE/etcd-discovery-controller.yaml --namespace="openshift-origin"
+$ kubectl create -f $OPENSHIFT_EXAMPLE/etcd-discovery-service.yaml --namespace="openshift-origin"
+$ kubectl create -f $OPENSHIFT_EXAMPLE/etcd-controller.yaml --namespace="openshift-origin"
+$ kubectl create -f $OPENSHIFT_EXAMPLE/etcd-service.yaml --namespace="openshift-origin"
 ```
 
 ### Step 1: Export your Kubernetes configuration file for use by OpenShift pod
