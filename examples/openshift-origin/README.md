@@ -60,7 +60,7 @@ $ kubectl create -f $OPENSHIFT_EXAMPLE/etcd-service.yaml --namespace="openshift-
 OpenShift Origin uses a configuration file to know how to access your Kubernetes cluster with administrative authority.
 
 ```
-$ cluster/kubectl.sh config view --output=yaml --flatten=true --minify=true > ${OPENSHIFT_CONFIG}/kubeconfig
+$ kubectl config view --output=yaml --flatten=true --minify=true > ${OPENSHIFT_CONFIG}/kubeconfig
 ```
 
 The output from this command will contain a single file that has all the required information needed to connect to your Kubernetes cluster that you previously provisioned. This file should be considered sensitive, so do not share this file with untrusted parties.
@@ -73,7 +73,7 @@ An external load balancer is needed to route traffic to our OpenShift master ser
 
 
 ```sh
-$ cluster/kubectl.sh create -f $OPENSHIFT_EXAMPLE/openshift-service.yaml --namespace="openshift-origin"
+$ kubectl create -f $OPENSHIFT_EXAMPLE/openshift-service.yaml --namespace="openshift-origin"
 ```
 
 ### Step 3: Generate configuration file for your OpenShift master pod
@@ -153,7 +153,7 @@ $ docker run -it --privileged -e="KUBECONFIG=/config/kubeconfig" -v ${OPENSHIFT_
 Now, lets create the secret in your Kubernetes cluster.
 
 ```sh
-$ cluster/kubectl.sh create -f $OPENSHIFT_EXAMPLE/secret.json --namespace="openshift-origin"
+$ kubectl create -f $OPENSHIFT_EXAMPLE/secret.json --namespace="openshift-origin"
 ```
 
 **NOTE: This secret is secret and should not be shared with untrusted parties.**
@@ -166,14 +166,14 @@ We will deploy a pod that runs the OpenShift master.  The OpenShift master will 
 system to manage Kubernetes specific resources.  For the sake of simplicity, the OpenShift master will run with an embedded etcd to hold OpenShift specific content.  This demonstration will evolve in the future to show how to run etcd in a pod so that content is not destroyed if the OpenShift master fails.
 
 ```sh
-$  cluster/kubectl.sh create -f ${OPENSHIFT_EXAMPLE}/openshift-controller.yaml --namespace="openshift-origin"
+$  kubectl create -f ${OPENSHIFT_EXAMPLE}/openshift-controller.yaml --namespace="openshift-origin"
 ```
 
 You should now get a pod provisioned whose name begins with openshift.
 
 ```sh
-$ cluster/kubectl.sh get pods --namespace=openshift-origin | grep openshift
-$ cluster/kubectl.sh logs openshift-t7147 origin --namespace=openshift-origin
+$ kubectl get pods --namespace=openshift-origin | grep openshift
+$ kubectl logs openshift-t7147 origin --namespace=openshift-origin
 Running: cluster/../cluster/gce/../../cluster/../_output/dockerized/bin/linux/amd64/kubectl logs openshift-t7t47 origin
 2015-04-30T15:26:00.454146869Z I0430 15:26:00.454005       1 start_master.go:296] Starting an OpenShift master, reachable at 0.0.0.0:8443 (etcd: [https://10.0.27.2:4001])
 2015-04-30T15:26:00.454231211Z I0430 15:26:00.454223       1 start_master.go:297] OpenShift master public address is https://104.197.73.241:8443
